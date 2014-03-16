@@ -107,6 +107,9 @@ function ChartViewModel() {
         series: finalData,
         xAxis: {
           type: 'datetime'
+        },
+        title: {
+          text: null
         }
       });
     });
