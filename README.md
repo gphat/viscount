@@ -4,13 +4,25 @@ Waterhouse is an application for dashboard creation and management for [KairosDB
 [John William Waterhouse](http://en.wikipedia.org/wiki/John_William_Waterhouse),
 the painter of [Gather Ye Rosebuds While Ye May](http://en.wikipedia.org/wiki/Gather_Ye_Rosebuds_While_Ye_May_(Waterhouse_painting_1909)).
 
+# Status
+
+At present Waterhouse provides a UI for building charts. The ultimate goal is to
+facilitate the creation and management of any number of dashboards.
+
 # Features
 
-* UI for composing charts for KairosDB
 * Export of PNG, PDF and SVG charts.
+* UI for composing charts for KairosDB
+* Query aggregation, aggregation chaining and sampling support
+
+# How It Works
+
+Waterhouse proxies requests to KairosDB to avoid any problems with [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
+This will become optional in the future.
 
 # TODO
 
+* autocomplete metric & tags
 * group by inputs
 * tag filtering & exclusion
 * time window
@@ -18,6 +30,7 @@ the painter of [Gather Ye Rosebuds While Ye May](http://en.wikipedia.org/wiki/Ga
 * dashboard saving
 * dashboard browsing
 * auto-update
+* configurable proxy behavior for KairosDB
 
 # Credits
 
