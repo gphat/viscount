@@ -1,6 +1,6 @@
 # Waterhouse
 
-![Screenshot](/screen.png "Waterhouse")
+![Screenshot](screen.png "Waterhouse")
 
 Waterhouse is an application for dashboard creation and management for [KairosDB](https://code.google.com/p/kairosdb/).
 
