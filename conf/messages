@@ -1,7 +1,9 @@
+chart.series.aggregation.add.cancel=Cancel
 chart.series.aggregation.add.submit=Add
-chart.series.aggregation.add=Add Aggregation
+chart.series.aggregation.add=Add Aggregation.
 chart.series.aggregation.sampling.amount=Sampling Amount
 chart.series.aggregation.sampling.divisor.amount=Divisor
+chart.series.aggregation.sampling.percentile.amount=Percentile
 chart.series.aggregation.sampling.scale.factor=Factor
 chart.series.aggregation.sampling.unit.day=Days
 chart.series.aggregation.sampling.unit.hour=Hours
@@ -31,5 +33,5 @@ chart.series.groupby.time=Time
 chart.series.groupby.value=Value
 chart.series.metric.filter.value=Value
 chart.series.metric.name=Metric Name
+chart.series.remove=Remove this series.
 chart.series.title=Series
-chart.series.aggregation.sampling.percentile.amount=Percentile

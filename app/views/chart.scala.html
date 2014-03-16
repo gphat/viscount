@@ -10,64 +10,78 @@
 
     <!-- ko foreach: { data: series, as: 'series' } -->
       <div class="series">
-        <button class="btn btn-info btn-xs" data-bind="click: toggleAggPanel">@Messages("chart.series.aggregation.add")</button>
-        <button class="btn btn-danger btn-xs pull-right" data-bind="click: removeSeries"><i class="fa fa-times"></i></button>
-        <form id="aggForm" role="form" class="">
-          <div data-bind="if: showAggPanel">
-            <div class="well well-sm">
-              <div class="row form-group">
-                <div class="col-xs-3">
-                  <select name="name" class="form-control input-sm" data-bind="value: maybeAgg">
-                    <option value="">@Messages("chart.series.aggregation.type.chooseOne")</option>
-                    <option value="avg">@Messages("chart.series.aggregation.type.average")</option>
-                    <option value="count">@Messages("chart.series.aggregation.type.count")</option>
-                    <option value="div">@Messages("chart.series.aggregation.type.divided")</option>
-                    <option value="least_squares">@Messages("chart.series.aggregation.type.leastSquares")</option>
-                    <option value="max">@Messages("chart.series.aggregation.type.maximum")</option>
-                    <option value="min">@Messages("chart.series.aggregation.type.minimum")</option>
-                    <option value="percentile">@Messages("chart.series.aggregation.type.percentile")</option>
-                    <option value="rate">@Messages("chart.series.aggregation.type.rate")</option>
-                    <option value="scale">@Messages("chart.series.aggregation.type.scale")</option>
-                    <option value="dev">@Messages("chart.series.aggregation.type.standardDeviation")</option>
-                    <option value="sum">@Messages("chart.series.aggregation.type.sum")</option>
-                  </select>
-                </div>
-                <div data-bind="if: maybeAgg" class="col-xs-9">
-                  <div class="row">
-                    <div data-bind="template: { name: 'agg-' + maybeAgg() + '-template' }">
+        <div class="row">
+          <div class="col-xs-1">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-cogs"></i> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#" data-bind="click: removeSeries"><i class="fa fa-times"></i> @Messages("chart.series.remove")</a></li>
+                <li><a href="#" data-bind="click: toggleAggPanel"><i class="fa fa-sitemap"></i> @Messages("chart.series.aggregation.add")</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-11">
+            <form id="aggForm" role="form">
+              <div data-bind="if: showAggPanel">
+                <div class="well well-sm">
+                  <div class="row form-group">
+                    <div class="col-xs-3">
+                      <select name="name" class="form-control input-sm" data-bind="value: maybeAgg">
+                        <option value="">@Messages("chart.series.aggregation.type.chooseOne")</option>
+                        <option value="avg">@Messages("chart.series.aggregation.type.average")</option>
+                        <option value="count">@Messages("chart.series.aggregation.type.count")</option>
+                        <option value="div">@Messages("chart.series.aggregation.type.divided")</option>
+                        <option value="least_squares">@Messages("chart.series.aggregation.type.leastSquares")</option>
+                        <option value="max">@Messages("chart.series.aggregation.type.maximum")</option>
+                        <option value="min">@Messages("chart.series.aggregation.type.minimum")</option>
+                        <option value="percentile">@Messages("chart.series.aggregation.type.percentile")</option>
+                        <option value="rate">@Messages("chart.series.aggregation.type.rate")</option>
+                        <option value="scale">@Messages("chart.series.aggregation.type.scale")</option>
+                        <option value="dev">@Messages("chart.series.aggregation.type.standardDeviation")</option>
+                        <option value="sum">@Messages("chart.series.aggregation.type.sum")</option>
+                      </select>
+                    </div>
+                    <div data-bind="if: maybeAgg" class="col-xs-9">
+                      <div class="row">
+                        <div data-bind="template: { name: 'agg-' + maybeAgg() + '-template' }">
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  <button data-bind="click: toggleAggPanel" class="btn btn-default">@Messages("chart.series.aggregation.add.cancel")</button>
+                  <button data-bind="click: addAggregate" class="btn btn-primary">@Messages("chart.series.aggregation.add.submit")</button>
                 </div>
               </div>
-              <button data-bind="visible: showAggPanel, click: addAggregate" class="btn btn-primary">@Messages("chart.series.aggregation.add.submit")</button>
-            </div>
-          </div>
-        </form>
-        <ul class="list-inline list-agg" data-bind="foreach: { data: aggregations, as: 'agg' }">
-         <li><span class="label label-success"><span data-bind="text: agg.name"></span> <i class="fa fa-times" data-bind="click: function(agg) { removeAggregate(agg, series) }"></i></span></li>
-         <li><i class="fa fa-arrow-right"></i></li>
-        </ul>
+            </form>
+            <ul class="list-inline list-agg" data-bind="foreach: { data: aggregations, as: 'agg' }">
+             <li><span class="label label-success"><span data-bind="text: agg.name"></span> <i class="fa fa-times" data-bind="click: function(agg) { removeAggregate(agg, series) }"></i></span></li>
+             <li><i class="fa fa-arrow-right"></i></li>
+            </ul>
 
-        <form role="form" class="form">
-          <div class="row">
-            <div class="col-xs-6 form-group">
-              <input type="text" class="form-control input-sm" placeholder="@Messages("chart.series.metric.name")" data-bind="value: name">
-            </div>
-            <div class="col-xs-6 form-group">
-              <select class="form-control input-sm">
-                <option value="none">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.none")</option>
-                <option value="tag">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.tag")</option>
-                <option value="time">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.time")</option>
-                <option value="value">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.value")</option>
-              </select>
-            </div>
+            <form role="form" class="form">
+              <div class="row">
+                <div class="col-xs-6 form-group">
+                  <input type="text" class="form-control input-sm" placeholder="@Messages("chart.series.metric.name")" data-bind="value: name">
+                </div>
+                <div class="col-xs-6 form-group">
+                  <select class="form-control input-sm">
+                    <option value="none">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.none")</option>
+                    <option value="tag">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.tag")</option>
+                    <option value="time">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.time")</option>
+                    <option value="value">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.value")</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 form-group">
+                  <input class="form-control input-sm" type="text" placeholder="@Messages("chart.series.metric.filter.value")">
+                </div>
+              </div>
+            </form>
           </div>
-          <div class="row">
-            <div class="col-xs-12 form-group">
-              <input class="form-control input-sm" type="text" placeholder="@Messages("chart.series.metric.filter.value")">
-            </div>
-          </div>
-        </form>
+        </div>
       </div>
     <!-- /ko -->
    </div>

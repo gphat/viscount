@@ -22,7 +22,7 @@ This will become optional in the future.
 
 # TODO
 
-* clean up the UI more
+* UI help & guidance for new users
 * autocomplete metric & tags
 * group by inputs
 * tag filtering & exclusion
@@ -32,6 +32,7 @@ This will become optional in the future.
 * dashboard browsing
 * auto-update
 * configurable proxy behavior for KairosDB
+* auth
 
 # Name
 
