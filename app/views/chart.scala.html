@@ -1,7 +1,9 @@
 @(message: String)
 
 @main("Welcome to Waterhouse") {
-  <div id="chart"></div>
+  <div id="chart" style="height: 300px">
+    <svg></svg>
+  </div>
   <div class="panel panel-default">
    <div class="panel-heading">@Messages("chart.series.title") <button type="button" class="btn btn-primary btn-xs pull-right" data-bind="click: chart"><i class="fa fa-youtube-play"></i></button></div>
    <div class="panel-body">

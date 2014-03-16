@@ -34,10 +34,7 @@ function ChartViewModel() {
       metrics[si] = {
         name: series.name
       };
-      console.log("!!!");
-      console.log(series.aggregations());
       if(series.aggregations().length > 0) {
-        console.log("ASDASDSD");
         metrics[si].aggregators = series.aggregations()
       }
     }
@@ -60,7 +57,6 @@ function ChartViewModel() {
       dataTpe: "json"
     })
       .done(function(r) {
-        console.log(r);
         var data = $.parseJSON(r);
 
         // We need to find the extents of the total set of all range and domain
@@ -78,9 +74,11 @@ function ChartViewModel() {
           }
         }
 
-        var margin = {top: 20, right: 20, bottom: 30, left: 50},
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+        var margin = {top: 30, right: 10, bottom: 30, left: 50},
+            width = $('#chart').width(),
+            width = width - margin.left - margin.right
+            height = $('#chart').height(),
+            height = height - margin.top - margin.bottom;
 
         var domainScale = d3.time.scale()
           .range([0, width])
@@ -106,7 +104,11 @@ function ChartViewModel() {
             return rangeScale(d[1])
           });
 
-        var svg = d3.select("svg").selectAll("path")
+        var svg = d3.select("svg")
+          .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var svg = svg.selectAll("path")
           .data(finalData)
           .enter()
           .append("svg:path")
