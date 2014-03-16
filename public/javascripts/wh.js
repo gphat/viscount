@@ -62,60 +62,23 @@ function ChartViewModel() {
         // We need to find the extents of the total set of all range and domain
         // values.
         var finalData = [];
-        var domainExtents = [];
-        var rangeExtents = [];
         for(var i = 0; i < data.queries.length; i++) {
           var results = data.queries[i].results;
           for(var j = 0; j < results.length; j++) {
             var vals = results[j].values;
-            finalData.push(vals);
-            domainExtents = domainExtents.concat(d3.extent(vals, function(d) { return d[0]; }));
-            rangeExtents = rangeExtents.concat(d3.extent(vals, function(d) { return d[1]; }));
+            finalData.push({
+              name: results[j].name,
+              data: vals
+            });
           }
         }
 
-        var margin = {top: 30, right: 10, bottom: 30, left: 50},
-            width = $('#chart').width(),
-            width = width - margin.left - margin.right
-            height = $('#chart').height(),
-            height = height - margin.top - margin.bottom;
-
-        var domainScale = d3.time.scale()
-          .range([0, width])
-          .domain(d3.extent(domainExtents));
-
-        var rangeScale = d3.scale.linear()
-          .range([height, 0])
-          .domain(d3.extent(rangeExtents));
-
-        var xAxis = d3.svg.axis()
-            .scale(domainScale)
-            .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-            .scale(rangeScale)
-            .orient("left");
-
-        var line = d3.svg.line()
-          .x(function(d, i) {
-            return domainScale(d[0])
-          })
-          .y(function(d, i) {
-            return rangeScale(d[1])
-          });
-
-        var svg = d3.select("svg")
-          .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        var svg = svg.selectAll("path")
-          .data(finalData)
-          .enter()
-          .append("svg:path")
-          .attr("d", line)
-          .style("fill", "none")
-          .style("stroke", "steelblue")
-          .style("stroke-width", "2px")
+      $("#chart").highcharts({
+        series: finalData,
+        xAxis: {
+          type: 'datetime'
+        }
+      });
     });
   }
 
