@@ -22,6 +22,7 @@ This will become optional in the future.
 
 # TODO
 
+* clean up the UI more
 * autocomplete metric & tags
 * group by inputs
 * tag filtering & exclusion
