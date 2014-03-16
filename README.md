@@ -1,8 +1,8 @@
 # Waterhouse
 
-Waterhouse is an application for dashboard creation and management for [KairosDB](https://code.google.com/p/kairosdb/). It is named for
-[John William Waterhouse](http://en.wikipedia.org/wiki/John_William_Waterhouse),
-the painter of [Gather Ye Rosebuds While Ye May](http://en.wikipedia.org/wiki/Gather_Ye_Rosebuds_While_Ye_May_(Waterhouse_painting_1909)).
+![Screenshot](/screen.png "Waterhouse")
+
+Waterhouse is an application for dashboard creation and management for [KairosDB](https://code.google.com/p/kairosdb/).
 
 # Status
 
@@ -31,6 +31,12 @@ This will become optional in the future.
 * dashboard browsing
 * auto-update
 * configurable proxy behavior for KairosDB
+
+# Name
+
+ It is named for
+[John William Waterhouse](http://en.wikipedia.org/wiki/John_William_Waterhouse),
+the painter of [Gather Ye Rosebuds While Ye May](http://en.wikipedia.org/wiki/Gather_Ye_Rosebuds_While_Ye_May_(Waterhouse_painting_1909)).
 
 # Credits
 
