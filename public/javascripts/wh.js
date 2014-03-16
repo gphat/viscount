@@ -47,8 +47,6 @@ function ChartViewModel() {
       metrics: metrics
     }
 
-    console.log(query);
-
     $.ajax({
       type: "POST",
       url: "/data",
@@ -74,6 +72,11 @@ function ChartViewModel() {
         }
 
       $("#chart").highcharts({
+        plotOptions: {
+          series: {
+            animation: false
+          }
+        },
         series: finalData,
         xAxis: {
           type: 'datetime'
