@@ -4,23 +4,50 @@ function ChartViewModel() {
   self.showAggPanel = ko.observable(false);
   self.maybeAgg = ko.observable(undefined);
 
-  self.series.push({
-    name: "",
-    aggregations: ko.observableArray([]),
-    groupBy: undefined
-  });
+  self.addSeries = function() {
+    self.series.push({
+      name: "",
+      aggregations: ko.observableArray([]),
+      groupBy: undefined
+    });
+  }
 
   self.addAggregate = function(series) {
     var aggForm = $("#aggForm").serializeJSON();
-    if(aggForm.name === "sum") {
-      var newAgg = {
-        name: aggForm.name,
-        sampling: {
-          value: aggForm.samplingValue,
-          unit: aggForm.samplingUnit
-        }
+
+    if(aggForm.name !== undefined && aggForm.name) {
+      console.log(aggForm.name);
+      if(aggForm.name === "div") {
+        series.aggregations.push({
+          name: aggForm.name,
+          divisor: aggForm.divisor
+        });
+      } else if(aggForm.name === "percentile") {
+        series.aggregations.push({
+          name: aggForm.name,
+          percentile: aggForm.percentile
+        });
+      } else if(aggForm.name === "rate") {
+        series.aggregations.push({
+          name: aggForm.name,
+          unit: aggForm.unit
+        });
+      } else if(aggForm.name === "scale") {
+        series.aggregations.push({
+          name: aggForm.name,
+          factor: aggForm.factor
+        });
+      } else {
+        // All the other forms of aggregation
+        // have a common sampling use and no arguments.
+        series.aggregations.push({
+          name: aggForm.name,
+          sampling: {
+            value: aggForm.samplingValue,
+            unit: aggForm.samplingUnit
+          }
+        });
       }
-      series.aggregations.push(newAgg);
     }
     self.showAggPanel(false);
   }
@@ -86,11 +113,20 @@ function ChartViewModel() {
   }
 
   self.removeAggregate = function(agg, series) {
-    series.aggregations.remove(agg);
+    self.series.aggregations.remove(agg);
+  }
+
+  self.removeSeries = function(s) {
+    self.series.remove(s);
+    if(self.series().length > 0) {
+      self.chart();
+    }
   }
 
   self.toggleAggPanel = function() {
     self.showAggPanel(!self.showAggPanel());
     self.maybeAgg(undefined);
   }
+
+  self.addSeries();
 }
