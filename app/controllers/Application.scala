@@ -28,4 +28,15 @@ object Application extends Controller {
     }
   }
 
+  def metrics = Action.async {
+    WS.url("http://localhost:8080/api/v1/metricnames").get map {
+      response => Ok(response.json.toString)
+    }
+  }
+
+  def tags = Action.async {
+    WS.url("http://localhost:8080/api/v1/tagnames").get map {
+      response => Ok(response.json.toString)
+    }
+  }
 }

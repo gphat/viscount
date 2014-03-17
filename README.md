@@ -14,6 +14,7 @@ facilitate the creation and management of any number of dashboards.
 * Export of PNG, PDF and SVG charts.
 * UI for composing charts for KairosDB
 * Query aggregation, aggregation chaining and sampling support
+* Metric auto-completion in queries
 
 # How It Works
 
@@ -23,7 +24,7 @@ This will become optional in the future.
 # TODO
 
 * UI help & guidance for new users
-* autocomplete metric & tags
+* autocomplete tags
 * group by inputs
 * tag filtering & exclusion
 * time window
