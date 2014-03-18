@@ -4,11 +4,10 @@ function ChartViewModel() {
   self.showAggPanel = ko.observable(false);
   self.maybeAgg = ko.observable(undefined);
   self.availableProducts = ['One', 'Two', 'Three'];
-  self.productName = ko.observable();
 
   self.addSeries = function() {
     self.series.push({
-      name: "",
+      name: ko.observable(""),
       aggregations: ko.observableArray([]),
       groupBy: undefined
     });
@@ -133,54 +132,49 @@ function ChartViewModel() {
     self.maybeAgg(undefined);
   }
 
-  // This needs some work.
-  var metrics = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.nonword('name'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    limit: 10,
-    prefetch: {
-      url: '/metrics',
-      filter: function(list) {
-        return $.map(list.results, function(metric) { return { name: metric }; });
-      }
-    }
-  });
-
-  metrics.initialize();
-
   ko.bindingHandlers.typeahead = {
     init: function (element, valueAccessor, allBindingsAccessor) {
-        var $e = $(element),
-            allBindings = allBindingsAccessor();
+      var $e = $(element),
+        allBindings = allBindingsAccessor();
 
-        var updateValues = function(datum) {
-          allBindings.value(datum.value);
-        };
-        $e.typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        }, {
-            name: 'metrics',
-            displayKey: 'name',
-            source: metrics.ttAdapter()
-        }).on('typeahead:selected', function (el, datum) {
-            updateValues(datum);
-        }).on('typeahead:autocompleted', function (el, datum) {
-            updateValues(datum);
-        }).blur(function () {
-            var el, val, arrayCheck;
-            el = $(this);
-            val = el.val();
-            arrayCheck = ($.grep(productsList, function (n) { return n.value === val; }).length !== 0);
-            // if (!arrayCheck) {
-            //     el.val('');
-            //     source('');
-            //     productIDVal(0);
-            // }
-        });
+      var metrics = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.nonword('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 10,
+        prefetch: {
+          url: '/metrics',
+          filter: function(list) {
+            return $.map(list.results, function(metric) { return { name: metric }; });
+          }
+        }
+      });
+
+      metrics.initialize();
+
+      var updateValues = function(datum) {
+        $e.change();
+      };
+      $e.typeahead({
+        hint: false,
+        highlight: true,
+        minLength: 1
+      }, {
+        name: 'metrics',
+        displayKey: 'name',
+        source: metrics.ttAdapter()
+      }).on('typeahead:selected', function (el, datum) {
+        updateValues(datum);
+      }).on('typeahead:autocompleted', function (el, datum) {
+        updateValues(datum);
+      });
+
+      //if KO removes the element via templating, then destroy the typeahead
+      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+        $el.typeahead("destroy");
+        $el = null;
+      });
     }
-};
+  };
 
   self.addSeries();
 }
