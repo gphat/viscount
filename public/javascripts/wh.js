@@ -3,13 +3,13 @@ function ChartViewModel() {
   self.series = ko.observableArray([]);
   self.showAggPanel = ko.observable(false);
   self.maybeAgg = ko.observable(undefined);
-  self.foo = ko.observable("");
 
   self.addSeries = function() {
     self.series.push({
       name: "",
       aggregations: ko.observableArray([]),
-      groupBy: undefined
+      groupBy: undefined,
+      filters: ko.observableArray([])
     });
   }
 
@@ -17,7 +17,6 @@ function ChartViewModel() {
     var aggForm = $("#aggForm").serializeJSON();
 
     if(aggForm.name !== undefined && aggForm.name) {
-      console.log(aggForm.name);
       if(aggForm.name === "div") {
         series.aggregations.push({
           name: aggForm.name,
@@ -58,7 +57,6 @@ function ChartViewModel() {
     var metrics = [];
     for(var si = 0; si < self.series().length; si++) {
       var series = self.series()[si];
-
       metrics[si] = {
         name: series.name
       };
