@@ -3,11 +3,11 @@ function ChartViewModel() {
   self.series = ko.observableArray([]);
   self.showAggPanel = ko.observable(false);
   self.maybeAgg = ko.observable(undefined);
-  self.availableProducts = ['One', 'Two', 'Three'];
+  self.foo = ko.observable("");
 
   self.addSeries = function() {
     self.series.push({
-      name: ko.observable(""),
+      name: "",
       aggregations: ko.observableArray([]),
       groupBy: undefined
     });
@@ -152,6 +152,7 @@ function ChartViewModel() {
       metrics.initialize();
 
       var updateValues = function(datum) {
+        // valueAccessor(datum.value);
         $e.change();
       };
       $e.typeahead({
@@ -170,8 +171,8 @@ function ChartViewModel() {
 
       //if KO removes the element via templating, then destroy the typeahead
       ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-        $el.typeahead("destroy");
-        $el = null;
+        $e.typeahead("destroy");
+        $e = null;
       });
     }
   };
