@@ -85,8 +85,6 @@ function ChartViewModel() {
       .done(function(r) {
         var data = $.parseJSON(r);
 
-        // We need to find the extents of the total set of all range and domain
-        // values.
         var finalData = [];
         for(var i = 0; i < data.queries.length; i++) {
           var results = data.queries[i].results;
@@ -99,21 +97,21 @@ function ChartViewModel() {
           }
         }
 
-      $("#chart").highcharts({
-        plotOptions: {
-          series: {
-            animation: false
+        $("#chart").highcharts({
+          plotOptions: {
+            series: {
+              animation: false
+            }
+          },
+          series: finalData,
+          xAxis: {
+            type: 'datetime'
+          },
+          title: {
+            text: null
           }
-        },
-        series: finalData,
-        xAxis: {
-          type: 'datetime'
-        },
-        title: {
-          text: null
-        }
+        });
       });
-    });
   }
 
   self.removeAggregate = function(agg, series) {
