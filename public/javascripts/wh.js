@@ -117,10 +117,12 @@ function ChartViewModel() {
   }
 
   self.removeSeries = function(s) {
-    self.series.remove(s);
-    if(self.series().length > 0) {
-      self.chart();
+    if(self.series().length < 2) {
+      // No no no. Should be a message? XXX
+      return;
     }
+    self.series.remove(s);
+    self.chart();
   }
 
   self.toggleAggPanel = function() {
