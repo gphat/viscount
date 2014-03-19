@@ -1,9 +1,7 @@
 @(message: String)
 
 @main("Welcome to Waterhouse") {
-  <div id="chart" style="width: 100%; height: 300px">
-    <svg></svg>
-  </div>
+  <div id="chart" style="width: 100%; height: 300px"></div>
   <div class="panel panel-default panel-series">
    <div class="panel-heading">@Messages("chart.series.title") <button class="btn btn-success btn-xs" data-bind="click: addSeries"><i class="fa fa-plus"></i></button> <button type="button" class="btn btn-primary btn-xs pull-right" data-bind="click: chart"><i class="fa fa-youtube-play"></i></button></div>
    <div class="panel-body">
@@ -63,7 +61,7 @@
             <form role="form" class="form">
               <div class="row">
                 <div class="col-xs-6 form-group">
-                  <input type="text" class="form-control input-sm" data-bind="value: name, typeahead: name" placeholder="@Messages("chart.series.metric.name")">
+                  <input type="text" class="form-control input-sm" data-bind="value: metric, typeahead: metric" placeholder="@Messages("chart.series.metric.name")">
                 </div>
                 <div class="col-xs-6 form-group">
                   <select class="form-control input-sm">

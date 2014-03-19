@@ -1,14 +1,17 @@
 function renderChart(chartElem, serieses) {
+
   var metrics = [];
   for(var si = 0; si < serieses.length; si++) {
     var series = serieses[si];
     metrics[si] = {
-      name: series.name
+      name: series.metric
     };
-    if(series.aggregations().length > 0) {
+    var aggs = ko.unwrap(series.aggregations)
+    if(aggs.length > 0) {
       metrics[si].aggregators = series.aggregations()
     }
   }
+
   var query = {
     start_relative: {
       value: 1,
@@ -43,7 +46,23 @@ function renderChart(chartElem, serieses) {
         plotOptions: {
           series: {
             animation: false
+          },
+          line: {
+            marker: {
+              enabled: false,
+              states: {
+                hover: {
+                  radius: 4
+                }
+              }
+            }
           }
+        },
+        credits: {
+          enabled: false
+        },
+        legend: {
+          enabled: false
         },
         series: finalData,
         xAxis: {
@@ -63,7 +82,31 @@ function DashboardViewModel() {
   self.rows.push({
     charts: [
       {
-        width: 'col-md-3'
+        width: 'col-md-4',
+        series: [
+          {
+            metric: "kairosdb.protocol.http_request_count",
+            aggregations: []
+          }
+        ]
+      },
+      {
+        width: 'col-md-4',
+        series: [
+          {
+            metric: "kairosdb.http.request_time",
+            aggregations: []
+          }
+        ]
+      },
+      {
+        width: 'col-md-4',
+        series: [
+          {
+            metric: "kairosdb.jvm.free_memory",
+            aggregations: []
+          }
+        ]
       }
     ]
   });
@@ -77,7 +120,7 @@ function ChartViewModel() {
 
   self.addSeries = function() {
     self.series.push({
-      name: "",
+      metric: "",
       aggregations: ko.observableArray([]),
       groupBy: undefined,
       filters: ko.observableArray([])
@@ -165,7 +208,6 @@ function ChartViewModel() {
       metrics.initialize();
 
       var updateValues = function(datum) {
-        // valueAccessor(datum.value);
         $e.change();
       };
       $e.typeahead({
@@ -191,4 +233,11 @@ function ChartViewModel() {
   };
 
   self.addSeries();
+}
+
+ko.bindingHandlers.chart = {
+  init: function(element, valueAccessor) {
+    var value = ko.unwrap(valueAccessor());
+    renderChart(element, valueAccessor().series);
+  }
 }
