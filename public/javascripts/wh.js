@@ -1,3 +1,74 @@
+function renderChart(chartElem, serieses) {
+  var metrics = [];
+  for(var si = 0; si < serieses.length; si++) {
+    var series = serieses[si];
+    metrics[si] = {
+      name: series.name
+    };
+    if(series.aggregations().length > 0) {
+      metrics[si].aggregators = series.aggregations()
+    }
+  }
+  var query = {
+    start_relative: {
+      value: 1,
+      unit: "hours"
+    },
+    metrics: metrics
+  }
+
+  $.ajax({
+    type: "POST",
+    url: "/data",
+    contentType: "application/json; chartset=utf-8",
+    data: JSON.stringify(query),
+    dataTpe: "json"
+  })
+    .done(function(r) {
+      var data = $.parseJSON(r);
+
+      var finalData = [];
+      for(var i = 0; i < data.queries.length; i++) {
+        var results = data.queries[i].results;
+        for(var j = 0; j < results.length; j++) {
+          var vals = results[j].values;
+          finalData.push({
+            name: results[j].name,
+            data: vals
+          });
+        }
+      }
+
+      $(chartElem).highcharts({
+        plotOptions: {
+          series: {
+            animation: false
+          }
+        },
+        series: finalData,
+        xAxis: {
+          type: 'datetime'
+        },
+        title: {
+          text: null
+        }
+      });
+    });
+}
+
+function DashboardViewModel() {
+  var self = this;
+  self.rows = [];
+
+  self.rows.push({
+    charts: [
+      {
+        width: 'col-md-3'
+      }
+    ]
+  });
+}
+
 function ChartViewModel() {
   var self = this;
   self.series = ko.observableArray([]);
@@ -52,66 +123,6 @@ function ChartViewModel() {
     self.showAggPanel(false);
   }
 
-  self.chart = function() {
-
-    var metrics = [];
-    for(var si = 0; si < self.series().length; si++) {
-      var series = self.series()[si];
-      metrics[si] = {
-        name: series.name
-      };
-      if(series.aggregations().length > 0) {
-        metrics[si].aggregators = series.aggregations()
-      }
-    }
-
-    var query = {
-      start_relative: {
-        value: 1,
-        unit: "hours"
-      },
-      metrics: metrics
-    }
-
-    $.ajax({
-      type: "POST",
-      url: "/data",
-      contentType: "application/json; chartset=utf-8",
-      data: JSON.stringify(query),
-      dataTpe: "json"
-    })
-      .done(function(r) {
-        var data = $.parseJSON(r);
-
-        var finalData = [];
-        for(var i = 0; i < data.queries.length; i++) {
-          var results = data.queries[i].results;
-          for(var j = 0; j < results.length; j++) {
-            var vals = results[j].values;
-            finalData.push({
-              name: results[j].name,
-              data: vals
-            });
-          }
-        }
-
-        $("#chart").highcharts({
-          plotOptions: {
-            series: {
-              animation: false
-            }
-          },
-          series: finalData,
-          xAxis: {
-            type: 'datetime'
-          },
-          title: {
-            text: null
-          }
-        });
-      });
-  }
-
   self.removeAggregate = function(agg, series) {
     self.series.aggregations.remove(agg);
   }
@@ -128,6 +139,10 @@ function ChartViewModel() {
   self.toggleAggPanel = function() {
     self.showAggPanel(!self.showAggPanel());
     self.maybeAgg(undefined);
+  }
+
+  self.chart = function() {
+    renderChart('#chart', self.series());
   }
 
   ko.bindingHandlers.typeahead = {
