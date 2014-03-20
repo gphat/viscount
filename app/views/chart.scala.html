@@ -1,4 +1,4 @@
-@(message: String)
+@(id: Option[String] = None, dashboard: Option[String] = None, row: Option[Int] = None, col: Option[Int] = None)
 
 @main("Welcome to Waterhouse") {
   <div id="chart" style="width: 100%; height: 300px"></div>
@@ -154,7 +154,7 @@
   </script>
   <script>
   $(function(){
-    var view = ChartViewModel();
+    var view = ChartViewModel(@Html(dashboard.getOrElse("null")), @row.getOrElse("null"), @col.getOrElse("null"));
     ko.applyBindings(view);
   });
   </script>

@@ -21,6 +21,12 @@ facilitate the creation and management of any number of dashboards.
 Waterhouse proxies requests to KairosDB to avoid any problems with [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
 This will become optional in the future.
 
+# Post a Dashboard
+
+```
+curl -XPUT "http://localhost:9200/dashboards/dashboard/1" -d @dashboards/dashboard.json
+```
+
 # TODO
 
 * UI help & guidance for new users

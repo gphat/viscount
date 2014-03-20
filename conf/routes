@@ -5,6 +5,8 @@
 # Home page
 GET     /                           controllers.Application.index
 GET     /chart                      controllers.Application.chart
+GET     /chart/:id                  controllers.Application.specificChart(id: String, row: Int, col: Int)
+GET     /dashboard/:id              controllers.Application.dashboard(id: String)
 POST    /data                       controllers.Application.data
 GET     /metrics                    controllers.Application.metrics
 GET     /tags                       controllers.Application.tags

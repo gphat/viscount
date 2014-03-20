@@ -75,46 +75,15 @@ function renderChart(chartElem, serieses) {
     });
 }
 
-function DashboardViewModel() {
+function DashboardViewModel(dash) {
   var self = this;
-  self.rows = [];
-
-  self.rows.push({
-    charts: [
-      {
-        width: 'col-md-4',
-        series: [
-          {
-            metric: "kairosdb.protocol.http_request_count",
-            aggregations: []
-          }
-        ]
-      },
-      {
-        width: 'col-md-4',
-        series: [
-          {
-            metric: "kairosdb.http.request_time",
-            aggregations: []
-          }
-        ]
-      },
-      {
-        width: 'col-md-4',
-        series: [
-          {
-            metric: "kairosdb.jvm.free_memory",
-            aggregations: []
-          }
-        ]
-      }
-    ]
-  });
+  self.dashboard = dash._source;
 }
 
-function ChartViewModel() {
+function ChartViewModel(dash, row, col) {
   var self = this;
-  self.series = ko.observableArray([]);
+  console.log(dash._source);
+  self.series = ko.observableArray(dash._source.rows[row].charts[col].series);
   self.showAggPanel = ko.observable(false);
   self.maybeAgg = ko.observable(undefined);
 
@@ -232,7 +201,11 @@ function ChartViewModel() {
     }
   };
 
-  self.addSeries();
+  if(self.series().length < 1) {
+    self.addSeries();
+  } else {
+    self.chart();
+  }
 }
 
 ko.bindingHandlers.chart = {

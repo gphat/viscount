@@ -1,0 +1,73 @@
+{
+  "name": "Foobar",
+  "rows": [
+    {
+      "charts": [
+        {
+          "name": "Request Count",
+          "width": "col-md-4",
+          "series": [
+            {
+              "metric": "kairosdb.protocol.http_request_count",
+              "aggregations": []
+            }
+          ]
+        },
+        {
+          "name": "Request Count",
+          "width": "col-md-4",
+          "series": [
+            {
+              "metric": "kairosdb.http.request_time",
+              "aggregations": []
+            }
+          ]
+        },
+        {
+          "name": "Free Memory",
+          "width": "col-md-4",
+          "series": [
+            {
+              "metric": "kairosdb.jvm.free_memory",
+              "aggregations": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "charts": [
+        {
+          "name": "Request Count",
+          "width": "col-md-4",
+          "series": [
+            {
+              "metric": "kairosdb.http.request_time",
+              "aggregations": []
+            }
+          ]
+        },
+        {
+          "name": "Free Memory",
+          "width": "col-md-4",
+          "series": [
+            {
+              "metric": "kairosdb.jvm.free_memory",
+              "aggregations": []
+            }
+          ]
+        },
+        {
+          "name": "Request Count",
+          "width": "col-md-4",
+          "series": [
+            {
+              "metric": "kairosdb.protocol.http_request_count",
+              "aggregations": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

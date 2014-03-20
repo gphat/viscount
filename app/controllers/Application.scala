@@ -1,5 +1,6 @@
 package controllers
 
+import models.Search
 import play.api._
 import play.api.mvc._
 import play.api.libs.ws.WS
@@ -13,7 +14,19 @@ object Application extends Controller {
   }
 
   def chart = Action {
-    Ok(views.html.chart("chart"))
+    Ok(views.html.chart())
+  }
+
+  def specificChart(id: String, row: Int, col: Int) = Action.async {
+    Search.getDashboard(id).map({
+      res => Ok(views.html.chart(Some(id), Some(res), Some(row), Some(col)))
+    })
+  }
+
+  def dashboard(id: String) = Action.async {
+    Search.getDashboard(id).map({
+      res => Ok(views.html.dashboard(id, res))
+    });
   }
 
   def data = Action.async { request =>
