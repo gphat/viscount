@@ -9,8 +9,10 @@ import scala.concurrent.Future
 
 object Application extends Controller {
 
-  def index = Action {
-    Ok(views.html.index("Your new application is ready."))
+  def index = Action.async {
+    Search.getAllDashboards.map({
+      res => Ok(views.html.index(res))
+    })
   }
 
   def chart = Action {

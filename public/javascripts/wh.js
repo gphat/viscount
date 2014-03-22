@@ -75,6 +75,16 @@ function renderChart(chartElem, serieses) {
     });
 }
 
+function IndexViewModel(dashes) {
+  var self = this;
+  self.dashboards = ko.observableArray([]);
+  for(var i = 0; i < dashes.hits.hits.length; i++) {
+    var dash = dashes.hits.hits[i]._source;
+    dash["id"] = dashes.hits.hits[i]._id;
+    self.dashboards.push(dash);
+  }
+}
+
 function DashboardViewModel(dash) {
   var self = this;
   self.dashboard = dash._source;
@@ -82,8 +92,12 @@ function DashboardViewModel(dash) {
 
 function ChartViewModel(dash, row, col) {
   var self = this;
-  console.log(dash._source);
-  self.series = ko.observableArray(dash._source.rows[row].charts[col].series);
+
+  if(dash == null) {
+    self.series = ko.observableArray([]);
+  } else {
+    self.series = ko.observableArray(dash._source.rows[row].charts[col].series);
+  }
   self.showAggPanel = ko.observable(false);
   self.maybeAgg = ko.observable(undefined);
 
@@ -161,6 +175,8 @@ function ChartViewModel(dash, row, col) {
     init: function (element, valueAccessor, allBindingsAccessor) {
       var $e = $(element),
         allBindings = allBindingsAccessor();
+
+      // console.log(allBindings);
 
       var metrics = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.nonword('name'),

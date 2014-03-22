@@ -14,4 +14,10 @@ object Search {
   def getDashboard(id: String): Future[String] = {
     client.get(index = "dashboards", `type` = "dashboard", id = id) map { res => res.getResponseBody }
   }
+
+  def getAllDashboards: Future[String] = {
+    client.search("dashboards", """{ "query": { "match_all": {} } }""") map { res =>
+      res.getResponseBody
+    }
+  }
 }

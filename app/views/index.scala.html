@@ -1,5 +1,15 @@
-@(message: String)
+@(dashes: String)
 
 @main("Welcome to Waterhouse") {
-  Whaddup
+
+  <ul data-bind="foreach: dashboards">
+    <li><a data-bind="attr: { href: '/dashboard/' + id }, text: name"></a></li>
+  </ul>
+
+  <script>
+  $(function(){
+    var view = IndexViewModel(@Html(dashes));
+    ko.applyBindings(view);
+  });
+  </script>
 }

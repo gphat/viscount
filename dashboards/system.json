@@ -1,0 +1,49 @@
+{
+  "name": "System",
+  "rows": [
+    {
+      "charts": [
+        {
+          "name": "Load",
+          "width": "col-md-6",
+          "series": [
+            {
+              "metric": "load.longterm",
+              "aggregations": []
+            },
+            {
+              "metric": "load.shortterm",
+              "aggregations": []
+            },
+            {
+              "metric": "load.midterm",
+              "aggregations": []
+            }
+          ]
+        },
+        {
+          "name": "Memory",
+          "width": "col-md-6",
+          "series": [
+            {
+              "metric": "memory-active",
+              "aggregations": []
+            },
+            {
+              "metric": "memory-wired",
+              "aggregations": []
+            },
+            {
+              "metric": "memory-inactive",
+              "aggregations": []
+            },
+            {
+              "metric": "memory-free",
+              "aggregations": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
