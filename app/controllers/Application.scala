@@ -1,6 +1,6 @@
 package controllers
 
-import models.Search
+import models.SearchModel
 import play.api._
 import play.api.mvc._
 import play.api.libs.ws.WS
@@ -10,7 +10,7 @@ import scala.concurrent.Future
 object Application extends Controller {
 
   def index = Action.async {
-    Search.getAllDashboards.map({
+    SearchModel.getAllDashboards.map({
       res => Ok(views.html.index(res))
     })
   }
@@ -20,13 +20,13 @@ object Application extends Controller {
   }
 
   def specificChart(id: String, row: Int, col: Int) = Action.async {
-    Search.getDashboard(id).map({
+    SearchModel.getDashboard(id).map({
       res => Ok(views.html.chart(Some(id), Some(res), Some(row), Some(col)))
     })
   }
 
   def dashboard(id: String) = Action.async {
-    Search.getDashboard(id).map({
+    SearchModel.getDashboard(id).map({
       res => Ok(views.html.dashboard(id, res))
     });
   }

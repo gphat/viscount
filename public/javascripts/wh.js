@@ -1,4 +1,16 @@
-function renderChart(chartElem, serieses) {
+function Timeframe(data) {
+  this.id       = ko.observable(data.id);
+  this.name     = ko.observable(data.name);
+  this.nameI18N = ko.observable(data.nameI18N);
+}
+
+function TimeUnit(data) {
+  this.id       = ko.observable(data.id);
+  this.name     = ko.observable(data.name);
+  this.nameI18N = ko.observable(data.nameI18N);
+}
+
+function renderChart(chartElem, query, serieses) {
 
   var metrics = [];
   for(var si = 0; si < serieses.length; si++) {
@@ -12,13 +24,17 @@ function renderChart(chartElem, serieses) {
     }
   }
 
-  var query = {
-    start_relative: {
-      value: 1,
-      unit: "hours"
-    },
-    metrics: metrics
-  }
+  query.metrics = metrics;
+
+  // var query = {
+  //   start_relative: {
+  //     value: 1,
+  //     unit: "hours"
+  //   },
+  //   metrics: metrics
+  // }
+
+  console.log(query);
 
   $.ajax({
     type: "POST",
@@ -92,12 +108,30 @@ function DashboardViewModel(dash) {
 
 function ChartViewModel(dash, row, col) {
   var self = this;
+  self.timeframes = ko.observableArray([]);
+  self.timeframe = ko.observable(null);
+  self.timeunits = ko.observableArray([]);
+  self.absoluteStart = ko.observable(null);
+  self.absoluteEnd = ko.observable(null);
+  self.relativeUnit = ko.observable("hour");
+  self.relativeValue = ko.observable(1);
+
+  $.getJSON("/api/v1/timeframes")
+    .done(function(data) {
+      self.timeframes($.map(data, function(item) { return new Timeframe(item) }))
+    });
+
+  $.getJSON("/api/v1/timeunits")
+    .done(function(data) {
+      self.timeunits($.map(data, function(item) { return new TimeUnit(item) }))
+    });
 
   if(dash == null) {
     self.series = ko.observableArray([]);
   } else {
     self.series = ko.observableArray(dash._source.rows[row].charts[col].series);
   }
+  self.timeframe = ko.observable("relative"); // XXX Look at incoming dashboard
   self.showAggPanel = ko.observable(false);
   self.maybeAgg = ko.observable(undefined);
 
@@ -168,15 +202,23 @@ function ChartViewModel(dash, row, col) {
   }
 
   self.chart = function() {
-    renderChart('#chart', self.series());
+    var qframe = {};
+    if(self.timeframe() === "absolute") {
+      qframe.start_absolute = self.absoluteStart();
+      qframe.end_absolute = self.absoluteEnd();
+    } else {
+      qframe.start_relative = {
+        "value": self.relativeValue(),
+        "unit": self.relativeUnit()
+      }
+    }
+    renderChart('#chart', qframe, self.series());
   }
 
   ko.bindingHandlers.typeahead = {
     init: function (element, valueAccessor, allBindingsAccessor) {
       var $e = $(element),
         allBindings = allBindingsAccessor();
-
-      // console.log(allBindings);
 
       var metrics = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.nonword('name'),

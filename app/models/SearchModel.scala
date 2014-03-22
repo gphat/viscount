@@ -6,7 +6,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import wabisabi._
 
-object Search {
+object SearchModel {
 
   lazy val url = Play.configuration.getString("elasticsearch.url")
   lazy val client = new Client(url.getOrElse("http://localhost:9200"))
