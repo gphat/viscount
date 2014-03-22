@@ -11,6 +11,7 @@ facilitate the creation and management of any number of dashboards.
 
 # Features
 
+* REST API
 * Export of PNG, PDF and SVG charts.
 * UI for composing charts for KairosDB
 * Query aggregation, aggregation chaining and sampling support
@@ -33,7 +34,8 @@ curl -XPUT "http://localhost:9200/dashboards/dashboard/1" -d @dashboards/dashboa
 * autocomplete tags
 * group by inputs
 * tag filtering & exclusion
-* time window
+* time window in saved dashboards
+  * absolute time picker
 * chart options
 * dashboard saving
 * dashboard browsing
