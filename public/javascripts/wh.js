@@ -2,7 +2,7 @@ function Series(data) {
   this.metric       = ko.observable(data.metric),
   this.aggregations = ko.observableArray(data.aggregations);
   this.group_by     = ko.observable(data.group_by);
-  this.filters      = ko.observableArray(data.filters);
+  this.filters      = ko.observable(data.filters);
 }
 
 function Timeframe(data) {
@@ -20,18 +20,24 @@ function TimeUnit(data) {
 function renderChart(chartElem, query, serieses) {
   var metrics = [];
   for(var si = 0; si < serieses.length; si++) {
-    var series = serieses[si];
+    var series = ko.toJS(serieses[si]);
     metrics[si] = {
       name: series.metric
     };
-    var aggs = ko.unwrap(series.aggregations)
+    var aggs = series.aggregations
     if(aggs.length > 0) {
-      metrics[si].aggregators = series.aggregations()
+      metrics[si].aggregators = aggs
+    }
+    if(series.filters != null) {
+      metrics[si].tags = {};
+      // This is a hack to use equal signs as the delimiter of a single
+      // name value pair for tag filters.
+      var parts = series.filters.split("=");
+      metrics[si].tags[parts[0]] = [ parts[1] ]
     }
   }
 
-  // Convert the series back to JS for querying
-  query.metrics = ko.toJS(metrics);
+  query.metrics = metrics;
 
   $.ajax({
     type: "POST",
@@ -157,7 +163,7 @@ function ChartViewModel(dash, row, col) {
       metric: "",
       aggregations: [],
       group_by: null,
-      filters: []
+      filters: null
     }));
   }
 
