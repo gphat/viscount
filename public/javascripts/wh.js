@@ -1,3 +1,10 @@
+function Series(data) {
+  this.metric       = ko.observable(data.metric),
+  this.aggregations = ko.observableArray(data.aggregations);
+  this.group_by     = ko.observable(data.group_by);
+  this.filters      = ko.observableArray(data.filters);
+}
+
 function Timeframe(data) {
   this.id       = ko.observable(data.id);
   this.name     = ko.observable(data.name);
@@ -23,7 +30,8 @@ function renderChart(chartElem, query, serieses) {
     }
   }
 
-  query.metrics = metrics;
+  // Convert the series back to JS for querying
+  query.metrics = ko.toJS(metrics);
 
   $.ajax({
     type: "POST",
@@ -136,19 +144,21 @@ function ChartViewModel(dash, row, col) {
   if(dash == null) {
     self.series = ko.observableArray([]);
   } else {
-    self.series = ko.observableArray(dash._source.rows[row].charts[col].series);
+    self.series = ko.observableArray(
+      $.map(dash._source.rows[row].charts[col].series, function(item) { return new Series(item) })
+    );
   }
   self.timeframe = ko.observable("relative"); // XXX Look at incoming dashboard
   self.showAggPanel = ko.observable(false);
   self.maybeAgg = ko.observable(undefined);
 
   self.addSeries = function() {
-    self.series.push({
+    self.series.push(new Series({
       metric: "",
-      aggregations: ko.observableArray([]),
-      groupBy: undefined,
-      filters: ko.observableArray([])
-    });
+      aggregations: [],
+      group_by: null,
+      filters: []
+    }));
   }
 
   self.addAggregate = function(series) {

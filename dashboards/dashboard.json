@@ -15,7 +15,8 @@
           "series": [
             {
               "metric": "kairosdb.protocol.http_request_count",
-              "aggregations": []
+              "aggregations": [],
+              "group_by": null
             }
           ]
         },
@@ -25,7 +26,8 @@
           "series": [
             {
               "metric": "kairosdb.http.request_time",
-              "aggregations": []
+              "aggregations": [],
+              "group_by": null
             }
           ]
         },
@@ -35,7 +37,8 @@
           "series": [
             {
               "metric": "kairosdb.jvm.free_memory",
-              "aggregations": []
+              "aggregations": [],
+              "group_by": null
             }
           ]
         }
@@ -49,7 +52,8 @@
           "series": [
             {
               "metric": "kairosdb.http.request_time",
-              "aggregations": []
+              "aggregations": [],
+              "group_by": null
             }
           ]
         },
@@ -59,7 +63,8 @@
           "series": [
             {
               "metric": "kairosdb.jvm.free_memory",
-              "aggregations": []
+              "aggregations": [],
+              "group_by": null
             }
           ]
         },
@@ -69,7 +74,8 @@
           "series": [
             {
               "metric": "kairosdb.protocol.http_request_count",
-              "aggregations": []
+              "aggregations": [],
+              "group_by": null
             }
           ]
         }

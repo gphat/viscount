@@ -76,20 +76,26 @@
 
             <form role="form" class="form">
               <div class="row">
-                <div class="col-xs-6 form-group">
+                <div class="col-md-6 form-group">
                   <input type="text" class="form-control input-sm" data-bind="value: metric, typeahead: metric" placeholder="@Messages("chart.series.metric.name")">
                 </div>
-                <div class="col-xs-6 form-group">
-                  <select class="form-control input-sm">
-                    <option value="none">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.none")</option>
-                    <option value="tag">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.tag")</option>
-                    <option value="time">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.time")</option>
-                    <option value="value">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.value")</option>
-                  </select>
+                <div class="col-md-6 form-group">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <select class="form-control input-sm" data-bind="value: group_by">
+                        <option value="none">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.none")</option>
+                        <option value="tag">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.tag")</option>
+                        <option value="time">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.time")</option>
+                        <option value="value">@Messages("chart.series.groupby.prefix") @Messages("chart.series.groupby.value")</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6" data-bind="template: { if: group_by, name: 'groupby-' + group_by() + '-template' }">
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-md-12 form-group">
                   <input class="form-control input-sm" type="text" placeholder="@Messages("chart.series.metric.filter.value")">
                 </div>
               </div>
@@ -100,6 +106,18 @@
     <!-- /ko -->
    </div>
   </div>
+  <script type="text/html" id="groupby-none-template">
+  NONE
+  </script>
+  <script type="text/html" id="groupby-tag-template">
+  TAG
+  </script>
+  <script type="text/html" id="groupby-time-template">
+  TIME
+  </script>
+  <script type="text/html" id="groupby-value-template">
+  VALUE
+  </script>
   <script type="text/html" id="timeframe-absolute-template">
   <div>
    <div class="col-md-6">
