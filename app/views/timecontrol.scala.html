@@ -1,0 +1,38 @@
+@()
+<div class="well well-sm">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-3">
+          <select data-bind="options: timeframes, optionsText: 'nameI18N', optionsValue: 'id', value: timeframe">
+          </select>
+        </div>
+        <div class="col-md-9">
+          <div data-bind="template: { if: timeframe, name: 'timeframe-' + timeframe() + '-template' }" class="row">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/html" id="timeframe-absolute-template">
+<div>
+ <div class="col-md-6">
+  <input class="form-control input-sm" type="text" data-bind="value: absoluteStart">
+ </div>
+ <div class="col-md-6">
+  <input class="form-control input-sm" type="text" data-bind="value: absoluteEnd">
+ </div>
+</div>
+</script>
+<script type="text/html" id="timeframe-relative-template">
+<div>
+ <div class="col-md-6">
+  <input class="form-control input-sm" type="number" data-bind="value: relativeValue">
+ </div>
+ <div class="col-md-6">
+  <select data-bind="options: timeunits, optionsText: 'nameI18N', optionsValue: 'id', value: relativeUnit">
+  </select>
+ </div>
+</div>
+</script>

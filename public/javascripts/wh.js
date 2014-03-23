@@ -11,7 +11,6 @@ function TimeUnit(data) {
 }
 
 function renderChart(chartElem, query, serieses) {
-
   var metrics = [];
   for(var si = 0; si < serieses.length; si++) {
     var series = serieses[si];
@@ -25,16 +24,6 @@ function renderChart(chartElem, query, serieses) {
   }
 
   query.metrics = metrics;
-
-  // var query = {
-  //   start_relative: {
-  //     value: 1,
-  //     unit: "hours"
-  //   },
-  //   metrics: metrics
-  // }
-
-  console.log(query);
 
   $.ajax({
     type: "POST",
@@ -104,16 +93,12 @@ function IndexViewModel(dashes) {
 function DashboardViewModel(dash) {
   var self = this;
   self.dashboard = dash._source;
-}
-
-function ChartViewModel(dash, row, col) {
-  var self = this;
   self.timeframes = ko.observableArray([]);
   self.timeframe = ko.observable(null);
   self.timeunits = ko.observableArray([]);
   self.absoluteStart = ko.observable(null);
   self.absoluteEnd = ko.observable(null);
-  self.relativeUnit = ko.observable("hour");
+  self.relativeUnit = ko.observable("hours");
   self.relativeValue = ko.observable(1);
 
   $.getJSON("/api/v1/timeframes")
@@ -124,6 +109,28 @@ function ChartViewModel(dash, row, col) {
   $.getJSON("/api/v1/timeunits")
     .done(function(data) {
       self.timeunits($.map(data, function(item) { return new TimeUnit(item) }))
+    });
+}
+
+function ChartViewModel(dash, row, col) {
+  var self = this;
+  self.timeframes = ko.observableArray([]);
+  self.timeframe = ko.observable(null);
+  self.timeunits = ko.observableArray([]);
+  self.absoluteStart = ko.observable(null);
+  self.absoluteEnd = ko.observable(null);
+  self.relativeUnit = ko.observable("hours");
+  self.relativeValue = ko.observable(1);
+
+  $.getJSON("/api/v1/timeframes")
+    .done(function(data) {
+      self.timeframes($.map(data, function(item) { return new Timeframe(item) }))
+    });
+
+  $.getJSON("/api/v1/timeunits")
+    .done(function(data) {
+      self.timeunits($.map(data, function(item) { return new TimeUnit(item) }))
+      self.relativeUnit("hours");
     });
 
   if(dash == null) {
@@ -267,8 +274,8 @@ function ChartViewModel(dash, row, col) {
 }
 
 ko.bindingHandlers.chart = {
-  init: function(element, valueAccessor) {
+  init: function(element, valueAccessor, allBindings) {
     var value = ko.unwrap(valueAccessor());
-    renderChart(element, valueAccessor().series);
+    renderChart(element, allBindings().timeframe, valueAccessor().series);
   }
 }

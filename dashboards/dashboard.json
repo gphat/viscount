@@ -1,5 +1,11 @@
 {
   "name": "Kairos",
+  "timeframe": {
+    "start_relative": {
+      "value": 1,
+      "unit": "hours"
+    }
+  },
   "rows": [
     {
       "charts": [
