@@ -1,12 +1,12 @@
-# Waterhouse
+# Viscount
 
-![Screenshot](https://raw.github.com/gphat/waterhouse/master/shot.png "Waterhouse")
+![Screenshot](https://raw.github.com/gphat/viscount/master/shot.png "Viscount")
 
-Waterhouse is an application for dashboard creation and management for [KairosDB](https://code.google.com/p/kairosdb/).
+Viscount is an application for dashboard creation and management for [KairosDB](https://code.google.com/p/kairosdb/).
 
 # Status
 
-At present Waterhouse provides a UI for building charts. The ultimate goal is to
+At present Viscount provides a UI for building charts. The ultimate goal is to
 facilitate the creation and management of any number of dashboards.
 
 # Features
@@ -19,7 +19,7 @@ facilitate the creation and management of any number of dashboards.
 
 # How It Works
 
-Waterhouse proxies requests to KairosDB to avoid any problems with [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
+Viscount proxies requests to KairosDB to avoid any problems with [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
 This will become optional in the future.
 
 # Post a Dashboard
@@ -42,12 +42,6 @@ curl -XPUT "http://localhost:9200/dashboards/dashboard/1" -d @dashboards/dashboa
 * auto-update
 * configurable proxy behavior for KairosDB
 * auth
-
-# Name
-
-Waterhouse is named for
-[John William Waterhouse](http://en.wikipedia.org/wiki/John_William_Waterhouse),
-the painter of [Gather Ye Rosebuds While Ye May](http://en.wikipedia.org/wiki/Gather_Ye_Rosebuds_While_Ye_May_(Waterhouse_painting_1909)).
 
 # Credits
 
